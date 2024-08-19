@@ -1,21 +1,14 @@
 version: '3.8'
 services:
   custom-nginx:
-    build: 
-      dockerfile: Dockerfile
+    build:
+      dockerfile: ./Nginx_Conf/Task12/Dockerfile
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./letsencrypt:/etc/letsencrypt
-      - ./var/www:/var/www
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-
 
   custom-apache:
     build:
-      dockerfile: /home/ubuntu/TasksFromPlaysDev/Docker/Apache_Conf/Dockerfile
+      dockerfile: ./Apache_Conf/Dockerfile
     ports:
-      -"8080:8080"
-    
+      - "8080:8080"
