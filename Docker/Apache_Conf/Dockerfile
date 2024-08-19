@@ -2,7 +2,7 @@ FROM httpd:2.4.62-alpine
 
 RUN apk update
 
-COPY ./000-default.conf /usr/local/apache2/conf/
+COPY ./000-default.conf /etc/apache2/sites-available/
 
 COPY ./var/var/www/ /var/www/
 
