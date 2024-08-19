@@ -1,14 +1,13 @@
-# Используем официальное изображение Apache как основу
-FROM httpd:latest
+FROM httpd:alpine
 
-# Копируем наш конфигурационный файл в контейнер
-COPY 000-default.conf /usr/local/apache2/conf/httpd.conf
+# Устанавливаем необходимые модули, если нужно
+RUN apk add --no-cache php7 php7-fpm
 
-# Копируем наши HTML файлы в контейнер
-COPY html /var/www/task3
+# Копируем конфигурационные файлы Apache
+COPY ./000-default.conf /usr/local/apache2/conf/httpd.conf
 
-RUN mkdir -p /var/log/apache2 && \
-    chown -R www-data:www-data /var/log/apache2
+# Копируем HTML файлы в директорию DocumentRoot
+COPY ./html/ /var/www/task3/html/
 
-# Запуск Apache
-CMD ["httpd-foreground"]
+# Expose the port Apache will listen on
+EXPOSE 8080

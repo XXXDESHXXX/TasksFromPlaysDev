@@ -11,4 +11,6 @@ COPY ./nginx/nginx.conf /etc/nginx/
 RUN chown -R nginx:nginx /etc/nginx /etc/letsencrypt /var/www && \
     chmod -R 755 /etc/nginx /etc/letsencrypt /var/www
 
+USER nginx
+
 EXPOSE 443
