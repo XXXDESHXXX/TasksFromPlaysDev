@@ -6,3 +6,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+
+  custom-apache:
+    build:
+      dockerfile: /home/ubuntu/TasksFromPlaysDev/Docker/Apache_Conf/Dockerfile
+    ports:
+      - "8080:8080"
