@@ -13,5 +13,5 @@ RUN chown -R nginx:nginx /etc/nginx /etc/letsencrypt /var/www /var/cache/nginx/ 
 
 USER nginx
 
-EXPOSE  443
+EXPOSE 443
 EXPOSE 80
