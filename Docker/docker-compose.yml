@@ -2,13 +2,15 @@ version: '3.8'
 services:
   custom-nginx:
     build:
-      dockerfile: ./Nginx_Conf/Task12/Dockerfile
+      context: /home/ubuntu/TasksFromPlaysDev/Docker/Nginx_Conf/Task12
+      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
 
   custom-apache:
     build:
-      dockerfile: ./Apache_Conf/Dockerfile
+      context: /home/ubuntu/TasksFromPlaysDev/Docker/Apache_Conf
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
