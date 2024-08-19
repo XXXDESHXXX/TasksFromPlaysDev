@@ -1,14 +1,17 @@
-# Используем официальное изображение Apache как основу
-FROM httpd:latest
+# Используем официальный образ Apache
+FROM httpd:2.4-alpine
 
-# Копируем наш конфигурационный файл в контейнер
-COPY 000-default.conf /usr/local/apache2/conf/httpd.conf
+# Обновляем пакеты и устанавливаем необходимые модули
+RUN apk update && apk add --no-cache bash
 
-# Копируем наши HTML файлы в контейнер
-COPY html /var/www/task3
+# Копируем конфигурацию Apache в контейнер
+COPY ./Apache_Conf/000-default.conf /usr/local/apache2/conf/httpd.conf
 
-RUN mkdir -p /var/log/apache2 && \
-    chown -R www-data:www-data /var/log/apache2
+# Копируем файлы в нужную директорию веб-сервера
+COPY ./Apache_Conf/html/ /usr/local/apache2/htdocs/
 
-# Запуск Apache
+# Открываем порт 8080 для прослушивания запросов
+EXPOSE 8080
+
+# Запускаем Apache в режиме фореграунд
 CMD ["httpd-foreground"]
