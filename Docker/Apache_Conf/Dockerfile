@@ -1,17 +1,16 @@
-# Используем официальный образ Apache
 FROM httpd:2.4-alpine
 
-# Обновляем пакеты и устанавливаем необходимые модули
 RUN apk update && apk add --no-cache bash
 
-# Копируем конфигурацию Apache в контейнер
 COPY 000-default.conf /usr/local/apache2/conf/httpd.conf
 
-# Копируем файлы в нужную директорию веб-сервера
-COPY context/ /usr/local/apache2/htdocs/
+COPY var/ /usr/local/apache2/htdocs/
 
-# Открываем порт 8080 для прослушивания запросов
+RUN chown -R apache2:apache2 /var/log/apache2 & \
+    chmod -R 755 /var/log/apache2
+
+USER apache2
+
 EXPOSE 8080
 
-# Запускаем Apache в режиме фореграунд
 CMD ["httpd-foreground"]
