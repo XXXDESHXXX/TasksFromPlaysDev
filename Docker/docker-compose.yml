@@ -2,7 +2,7 @@ version: '3.8'
 services:
   custom-nginx:
     build:
-      context: ${HOME_DIR}/TasksFromPlaysDev/Docker/Nginx_Conf/Task12
+      context: /home/ec2-user/TasksFromPlaysDev/Docker/Nginx_Conf/Task12
       dockerfile: Dockerfile
     ports:
       - "80:80"
@@ -10,7 +10,7 @@ services:
 
   custom-apache:
     build:
-      context: ${HOME_DIR}/TasksFromPlaysDev/Docker/Apache_Conf
+      context: /home/ec2-user/TasksFromPlaysDev/Docker/Apache_Conf
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
