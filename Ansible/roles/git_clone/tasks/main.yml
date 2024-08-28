@@ -1,0 +1,33 @@
+# roles/git_clone/tasks/main.yml
+---
+- name: Установить git (Ubuntu)
+  apt:
+    name: git
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Установить git (Amazon Linux)
+  yum:
+    name: git
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Убедиться, что директория существует
+  file:
+    path: /opt/TasksFromPlaysDev
+    state: directory
+
+- name: Клонировать репозиторий
+  git:
+    repo: "https://{{ git_username }}:{{ git_password }}@github.com/XXXDESHXXX/TasksFromPlaysDev.git"
+    dest: /opt/TasksFromPlaysDev
+    version: main
+    update: yes
+    force: yes
+
+- name: Проверить содержимое директории репозитория
+  command: ls -l /opt/TasksFromPlaysDev
+  register: repo_contents
+
+- debug:
+    msg: "Репозиторий содержимое: {{ repo_contents.stdout }}"

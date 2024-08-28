@@ -1,0 +1,5 @@
+[amazon_linux]
+amazon_linux_server ansible_host=44.211.249.101 ansible_user=ec2-user ansible_ssh_private_key_file=~/Загрузки/Task_6.pem
+
+[ubuntu]
+ubuntu_server ansible_host=3.84.22.36 ansible_user=ubuntu ansible_ssh_private_key_file=~/Загрузки/Task_6.pem

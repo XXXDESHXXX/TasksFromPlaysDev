@@ -1,0 +1,5 @@
+---
+- name: Запустить контейнеры через Docker Compose
+  command: /usr/local/bin/docker-compose -f /opt/TasksFromPlaysDev/Docker/docker-compose.yml up -d
+  args:
+    chdir: /opt/TasksFromPlaysDev/Docker/

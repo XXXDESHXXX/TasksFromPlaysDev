@@ -1,0 +1,11 @@
+# playbook.yml
+---
+- name: Установка Docker и запуск контейнеров
+  hosts: all
+  become: yes
+  roles:
+    - role: git_clone
+    - role: docker_install
+    - role: run_docker_containers
+      vars_files:
+        - roles/git_clone/vars/vars.yml

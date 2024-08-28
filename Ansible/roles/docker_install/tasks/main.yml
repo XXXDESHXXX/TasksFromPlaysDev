@@ -1,0 +1,121 @@
+---
+- name: Обновить списки пакетов (Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Установить необходимые пакеты (Ubuntu)
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - aptitude
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - python3-pip
+    - virtualenv
+    - python3-setuptools
+    - python3-venv
+  when: ansible_os_family == 'Debian'
+
+- name: Добавить Docker GPG ключ (Ubuntu)
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Добавить репозиторий Docker (Ubuntu)
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Обновить списки пакетов и установить Docker (Ubuntu)
+  apt:
+    name: docker-ce
+    state: latest
+  when: ansible_os_family == 'Debian'
+
+- name: Создать виртуальную среду Python (Ubuntu)
+  command: python3 -m venv /home/{{ ansible_user }}/.venv
+  when: ansible_os_family == 'Debian'
+
+- name: Установить pip в виртуальную среду (Ubuntu)
+  command: /home/{{ ansible_user }}/.venv/bin/pip install --upgrade pip
+  when: ansible_os_family == 'Debian'
+
+- name: Установить Docker Python модуль в виртуальную среду (Ubuntu)
+  command: /home/{{ ansible_user }}/.venv/bin/pip install docker
+  when: ansible_os_family == 'Debian'
+
+- name: Убедиться, что Docker запущен (Ubuntu)
+  service:
+    name: docker
+    state: started
+    enabled: true
+  when: ansible_os_family == 'Debian'
+
+- name: Добавить пользователя в группу docker (Ubuntu)
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Скачать Docker Compose (Ubuntu)
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64"
+    dest: "/usr/local/bin/docker-compose"
+    mode: '0755'
+  when: ansible_os_family == 'Debian'
+
+- name: Проверить установку Docker Compose (Ubuntu)
+  command: docker-compose --version
+  register: compose_version
+  when: ansible_os_family == 'Debian'
+
+- debug:
+    msg: "Docker Compose version: {{ compose_version.stdout }}"
+  when: ansible_os_family == 'Debian'
+
+# Amazon Linux
+- name: Установить зависимости для Docker (Amazon Linux)
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker
+    - python3-pip
+  when: ansible_os_family == 'RedHat'
+
+- name: Убедиться, что Docker запущен (Amazon Linux)
+  service:
+    name: docker
+    state: started
+    enabled: true
+  when: ansible_os_family == 'RedHat'
+
+- name: Добавить пользователя в группу docker (Amazon Linux)
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  when: ansible_os_family == 'RedHat'
+
+- name: Скачать Docker Compose (Amazon Linux)
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-linux-x86_64"
+    dest: "/usr/local/bin/docker-compose"
+    mode: '0755'
+  when: ansible_os_family == 'RedHat'
+
+- name: Проверить установку Docker Compose (Amazon Linux)
+  command: docker-compose --version
+  register: compose_version
+  when: ansible_os_family == 'RedHat'
+
+- debug:
+    msg: "Docker Compose version: {{ compose_version.stdout }}"
+  when: ansible_os_family == 'RedHat'
