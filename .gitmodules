@@ -1,3 +1,6 @@
 [submodule "JenkinsFile"]
 	path = JenkinsFile
 	url = https://github.com/XXXDESHXXX/JenkinsFile.git
+[submodule "jenkins"]
+	path = jenkins
+	url = https://github.com/XXXDESHXXX/JenkinsFile.git
