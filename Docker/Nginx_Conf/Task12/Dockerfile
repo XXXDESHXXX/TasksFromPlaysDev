@@ -5,8 +5,10 @@ COPY ./letsencrypt/ /etc/letsencrypt/
 COPY ./var/www/ /var/www/
 COPY ./nginx/nginx.conf /etc/nginx/
 
+RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.backup
+
 RUN chown -R nginx:nginx /etc/nginx /etc/letsencrypt /var/www /var/cache/nginx/ /var/log/nginx /run && \ 
-    chmod -R 755 /etc/nginx /etc/letsencrypt /var/www /var/cache/nginx/ /var/log/nginx /run
+    chmod -R 755 /etc/nginx /etc/letsencrypt /var/www /var/cache/nginx /var/log/nginx /run
 
 USER nginx
 
